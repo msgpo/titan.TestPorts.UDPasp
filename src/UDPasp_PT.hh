@@ -16,7 +16,7 @@
 //
 //  File:               UDPasp_PT.hh
 //  Description:        UDP test port header
-//  Rev:                R8A
+//  Rev:                R8B
 //  Prodnr:             CNL 113 346
 //
 

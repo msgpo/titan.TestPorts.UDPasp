@@ -16,7 +16,7 @@
 //
 //  File:               UDPasp_PT.cc
 //  Description:        UDP test port source
-//  Rev:                R8A
+//  Rev:                R8B
 //  Prodnr:             CNL 113 346
 //
 
