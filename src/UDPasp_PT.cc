@@ -43,6 +43,7 @@ UDPasp__PT_PROVIDER::UDPasp__PT_PROVIDER(const char *par_port_name)
   localAddr.sin_port = htons(DEFAULT_LOCAL_PORT);
   port_mode = false;
   broadcast = false;
+  reuseaddr = false;
   conn_list = NULL;
   num_of_conn = 0;
   conn_list_length = 0;
@@ -71,6 +72,11 @@ void UDPasp__PT_PROVIDER::setUpSocket()
     }
   }
   
+  if (reuseaddr){
+    int on=1;
+    if (setsockopt(target_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&on, sizeof(on) ) < 0)
+	    TTCN_error("Setsockopt error: SO_REUSEADDR");
+  }
   log("Binding port...");
   if(bind(target_fd, (struct sockaddr *) &localAddr, sizeof(localAddr))<0) {
     TTCN_error("Cannot bind port\n");
@@ -158,6 +164,16 @@ void UDPasp__PT_PROVIDER::set_parameter(const char *parameter_name,
       broadcast = false;
       	TTCN_warning("UDPasp__PT::set_parameter(): Unsupported Test Port parameter value: %s", parameter_value);
     }
+	}else if(!strcmp(parameter_name,"reuseAddr")){
+		if (!strcasecmp(parameter_value,"enabled"))
+			reuseaddr = true;
+		else if (!strcasecmp(parameter_value,"disabled"))
+			reuseaddr = false;
+		else {
+			reuseaddr = false;
+			TTCN_warning("UDP_asp__PT::set_parameter() Unsupported Test Port parameter value: %s",
+				parameter_value);
+		}
 	}else if(!strcmp(parameter_name,"localPort")){
 		localAddr.sin_port = htons(atoi(parameter_value));
 	}else if (!strcmp(parameter_name, "mode")) {

@@ -80,6 +80,7 @@ private:
   bool port_mode;  // false: basic mode. Works like R1A02
                    // true: advanced mode. The new features are activated
   bool broadcast;
+  bool reuseaddr;
   
   struct conn_data{
     int fd;
